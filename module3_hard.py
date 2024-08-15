@@ -6,19 +6,22 @@ data_structure = [
   ((), [{(2, 'Urban', ('Urban2', 35))}])
 ]
 
-def calc_list(list_):
+
+def calculate_structure_sum(func):
     sum_ = 0
-    for i in list_:
+    for i in func:
         if isinstance(i, int):
             sum_ += i
         elif isinstance(i, str):
             sum_ += len(i)
         elif isinstance(i, list):
-            sum_ += calc_list(i)
+            sum_ += calculate_structure_sum(i)
         elif isinstance(i, dict):
             sum_ += calc_dict(i)
         elif isinstance(i, tuple):
-            sum_ += calc_tuple(i)
+            sum_ += calculate_structure_sum(i)
+        elif isinstance(i, set):
+            sum_ += calculate_structure_sum(i)
     return sum_
 
 
@@ -62,58 +65,6 @@ def calc_value(value):
     elif isinstance(value, set):
         sum_value += calc_set(value)
     return sum_value
-
-
-def calc_tuple(tup):
-    sum_ = 0
-    for i in tup:
-        if isinstance(i, int):
-            sum_ += i
-        elif isinstance(i, str):
-            sum_ += len(i)
-        elif isinstance(i, list):
-            sum_ += calc_list(i)
-        elif isinstance(i, dict):
-            sum_ += calc_dict(i)
-        elif isinstance(i, tuple):
-            sum_ += calc_tuple(i)
-    return sum_
-
-
-def calc_set(set_):
-    sum_ = 0
-    for i in set_:
-        if isinstance(i, int):
-            sum_ += i
-        elif isinstance(i, str):
-            sum_ += len(i)
-        elif isinstance(i, list):
-            sum_ += calc_list(i)
-        elif isinstance(i, dict):
-            sum_ += calc_dict(i)
-        elif isinstance(i, tuple):
-            sum_ += calc_tuple(i)
-        elif isinstance(i, set):
-            sum_ += calc_set(i)
-    return sum_
-
-
-def calculate_structure_sum(func):
-    sum_ = 0
-    for i in func:
-        if isinstance(i, int):
-            sum_ += i
-        elif isinstance(i, str):
-            sum_ += len(i)
-        elif isinstance(i, list):
-            sum_ += calc_list(i)
-        elif isinstance(i, dict):
-            sum_ += calc_dict(i)
-        elif isinstance(i, tuple):
-            sum_ += calc_tuple(i)
-        elif isinstance(i, set):
-            sum_ += calc_set(i)
-    return sum_
 
 
 result = calculate_structure_sum(data_structure)
