@@ -92,7 +92,8 @@ class UrTube:
                             time.sleep(1)
                         print("Видео окончено.")
                         return  
-        print(f"Видео '{title}' не найдено.")
+                    else:
+                        print(f"Видео '{title}' не найдено.")
 
 ur = UrTube()
 v1 = Video('Лучший язык программирования 2024 года', 200)
