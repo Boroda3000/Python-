@@ -25,6 +25,7 @@ class UrTube:
     def __init__(self):
         self.users = {}
         self.videos = []
+        self.titles = set()
 
     
     def register(self, nickname, password, age):
@@ -33,12 +34,14 @@ class UrTube:
         else:   
             self.users[nickname] = {'password': hash(password), 'age': age}
             self.log_in(nickname, password)
+            print(f'Пользователь {nickname} успешно зарегистрирован и вошел в систему.')
 
 
     def log_in(self, nickname, password):
         global current_user
         if nickname in self.users and self.users[nickname]['password'] == hash(password):
             current_user = nickname
+            print(f"Пользователь {nickname} успешно вошел в систему.")
         else:
             print(f'Пользователь {nickname} не найден, или введен неверный пароль.')
     
@@ -46,22 +49,27 @@ class UrTube:
     def log_out(self):
         global current_user
         current_user = None
-        print("Вы вышли из аккаунта.")
+        print("Вы вышли из системы.")
 
 
     def add(self, *new_video):
-        if isinstance(new_video, Video):
-            if new_video.title in self.videos:
-                return None
+        for video in new_video:
+            if isinstance(video, Video):
+                if new_video.title in self.titles:
+                 print(f"Видео '{video.title}' уже существует.")
+                else:
+                    self.videos.append(video)
+                    self.titles.add(video.title)
+                    print(f"Видео '{video.title}' успешно добавлено.")
             else:
-                self.videos.append(new_video.title)
+                print("Ошибка: Неверный тип данных для добавления.")
     
 
     def get_videos(self, title):
         self.temp_list = []
-        for i in self.videos:
-            if (i.lower()).count(title.lower()):
-                self.temp_list.append(i)
+        for video_title in self.titles:
+            if (video_title.lower()).count(title.lower()):
+                self.temp_list.append(video_title)
         return self.temp_list
     
 
@@ -69,16 +77,22 @@ class UrTube:
         import time
         global current_user
         if current_user is None:
-            print('Войдите в аккаунт, чтобы смотреть видео')
+            print('Войдите в систему, чтобы смотреть видео')
             return
         else:
-            for key in self.users.keys():
-                if current_user == key and self.users[current_user]['age'] >= 18:
-                    for i in self.videos:
-                        if i == title:
-                            for j in range(self.videos.duration):
-                                print (j + 1)
-                                time.sleep(1)
+            if self.users[current_user]['age'] < 18:  
+                print("Доступ к этому видео ограничен.")
+                return
+            else:
+                for video in self.videos:
+                    if video.title == title:
+                        print(f"Просмотр видео: {video.title}")
+                        for j in range(video.duration):
+                            print (j + 1)
+                            time.sleep(1)
+                        print("Видео окончено.")
+                        return  
+        print(f"Видео '{title}' не найдено.")
 
 ur = UrTube()
 v1 = Video('Лучший язык программирования 2024 года', 200)
