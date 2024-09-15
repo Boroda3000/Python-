@@ -2,7 +2,7 @@ class Figure:
 
     sides_count = 0
     
-    def __init__(self, color, sides, filled = bool):
+    def __init__(self, color, sides, filled = False):
         self.__color = color
         self.__sides = self.set_sides(sides)
 
@@ -35,8 +35,8 @@ class Figure:
     
     def __len__(self):
         pirim = 0
-        for side in self.__sides:
-            pirim += side
+        for side in self.get_sides():
+            pirim += self.get_sides()[side]
         return pirim
     
     def set_sides(self, *new_sides):
@@ -59,10 +59,10 @@ class Circle(Figure):
         super().__init__(color, sides, filled=False)
 
     def __radius(self):
-        return self.__sides[0] / (2 * 3,14)
+        return self.get_sides()[0] / (2 * 3.14)
     
     def get_square(self):
-        return self.__sides[0] ** 2 / (4 * 3,14)
+        return self.get_sides()[0] ** 2 / (4 * 3.14)
     
 
 class Triangle(Figure):
@@ -73,9 +73,9 @@ class Triangle(Figure):
         super().__init__(color, sides, filled=False)
 
     def get_square(self):
-        a, b, c = self.__sides
+        a, b, c = self.get_sides()
         p = (a + b + c) / 2
-        return float((p * (p - a) * (p - b) * (p - c)) ** 0,5)
+        return float((p * (p - a) * (p - b) * (p - c)) ** 0.5)
     
 
 class Cube(Figure):
@@ -86,12 +86,12 @@ class Cube(Figure):
         super().__init__(color, sides, filled=False)
 
     def get_volume(self):
-        return self.__sides[0] ** 3
+        return self.get_sides()[0] ** 3
     
 c1 = Circle((200, 200, 100), 10)
 print(c1.get_color())
 print(c1.get_sides())
 print(c1.set_color(150, 150, 180))
 print(c1.set_color(180, 260, 280))
-#print(len(c1))
+print(len(c1))
 print(c1.get_square())
