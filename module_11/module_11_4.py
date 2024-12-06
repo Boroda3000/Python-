@@ -1,12 +1,13 @@
 import runner_and_tournament
 import unittest
-from pprint import pprint
+
 
 class TournamentTest(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
         cls.all_results = {}
+        cls.tour_result = {}
 
     def setUp(self):
         self.runner_1 = runner_and_tournament.Runner('Усэйн', speed=10)
@@ -15,46 +16,42 @@ class TournamentTest(unittest.TestCase):
     
     @classmethod
     def tearDownClass(cls):
-        pass
+        print(cls.all_results)
 
     def tearDown(self):
         print('Результат забега:')
         for i in range(self.count_participants):
-            print(f'{i + 1}:', TournamentTest.all_results[i + 1])
-        
-
+            print(f'{i + 1}: {self.tour_result[i + 1].name}')
+       
     def test_Tournament1(self):
         test_tour = runner_and_tournament.Tournament(90, self.runner_1, self.runner_3)
-        self.count_participants = len(test_tour.participants)
-        TournamentTest.all_results = test_tour.start()
-        largest_key = max(TournamentTest.all_results)
-        if TournamentTest.all_results[largest_key] == 'Ник':
-            flag = True
-        else:
-            flag = False
-        self.assertTrue(flag)
+        self.tour_result = test_tour.start()
+        try:
+            largest_key = max(self.tour_result)
+            self.assertEqual(self.tour_result[largest_key].name, 'Ник')
+        except (ValueError, KeyError):
+            self.fail("Ошибка при доступе к результатам")
+        self.all_results[f'Турнир №1'] = self.tour_result
 
     def test_Tournament2(self):
-        test_tour = runner_and_tournament.Tournament(90, self.runner_2, self.runner_3)
-        self.count_participants = len(test_tour.participants)
-        TournamentTest.all_results = test_tour.start()
-        largest_key = max(TournamentTest.all_results)
-        if TournamentTest.all_results[largest_key] == 'Ник':
-            flag = True
-        else:
-            flag = False
-        self.assertTrue(flag)
+        test_tour = runner_and_tournament.Tournament(90, self.runner_1, self.runner_3)
+        self.tour_result = test_tour.start()
+        try:
+            largest_key = max(self.tour_result)
+            self.assertEqual(self.tour_result[largest_key].name, 'Ник')
+        except (ValueError, KeyError):
+            self.fail("Ошибка при доступе к результатам")
+        self.all_results[f'Турнир №2'] = self.tour_result
 
     def test_Tournament3(self):
-        test_tour = runner_and_tournament.Tournament(6, self.runner_1, self.runner_2, self.runner_3)
-        self.count_participants = len(test_tour.participants)
-        TournamentTest.all_results = test_tour.start()
-        largest_key = max(TournamentTest.all_results)
-        if TournamentTest.all_results[largest_key] == 'Ник':
-            flag = True
-        else:
-            flag = False
-        self.assertTrue(flag)
+        test_tour = runner_and_tournament.Tournament(90, self.runner_1, self.runner_3)
+        self.tour_result = test_tour.start()
+        try:
+            largest_key = max(self.tour_result)
+            self.assertEqual(self.tour_result[largest_key].name, 'Ник')
+        except (ValueError, KeyError):
+            self.fail("Ошибка при доступе к результатам")
+        self.all_results[f'Турнир №1'] = self.tour_result
 
 
 
