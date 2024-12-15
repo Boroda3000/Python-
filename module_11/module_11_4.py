@@ -4,6 +4,8 @@ import unittest
 
 class TournamentTest(unittest.TestCase):
 
+    is_frozen = True
+
     @classmethod
     def setUpClass(cls):
         cls.all_results = {}
@@ -21,11 +23,13 @@ class TournamentTest(unittest.TestCase):
             print(f"{tournament_name}:")
             for place, runner in results.items():
                 print(f"{place} место: {runner.name}")
+
     def tearDown(self):
         print('Результат забега:')
         for i in range(len(self.tour_result)):
             print(f'{i + 1} : {self.tour_result[i+1]}')
-       
+
+    @unittest.skipIf(is_frozen, 'Тесты в этом кейсе заморожены.')
     def test_Tournament1(self):
         test_tour = runner_and_tournament.Tournament(90, self.runner_1, self.runner_3)
         self.tour_result = test_tour.start()
@@ -36,7 +40,8 @@ class TournamentTest(unittest.TestCase):
         except (ValueError, KeyError):
             self.fail("Ошибка при доступе к результатам")
         self.all_results[f'Турнир №1'] = self.tour_result
-
+    
+    @unittest.skipIf(is_frozen, 'Тесты в этом кейсе заморожены.')
     def test_Tournament2(self):
         test_tour = runner_and_tournament.Tournament(90, self.runner_2, self.runner_3)
         self.tour_result = test_tour.start()
@@ -48,6 +53,7 @@ class TournamentTest(unittest.TestCase):
             self.fail("Ошибка при доступе к результатам")
         self.all_results[f'Турнир №2'] = self.tour_result
 
+    @unittest.skipIf(is_frozen, 'Тесты в этом кейсе заморожены.')
     def test_Tournament3(self):
         test_tour = runner_and_tournament.Tournament(90, self.runner_1, self.runner_2, self.runner_3)
         self.tour_result = test_tour.start()
