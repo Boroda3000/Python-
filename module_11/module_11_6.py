@@ -14,8 +14,10 @@ class RunnerTest(unittest.TestCase):
                 test_runner.walk()
             self.assertEqual(test_runner.distance, 50)
             logging.info('test_walk успешно выполнен.')
-        except ValueError:
-            logging.WARNING('Неверная скорость для Runner.')
+        # except ValueError:
+        #     logging.warning('Неверная скорость для Runner.')
+        except TypeError:
+            logging.warning('Неверный тип данных для объекта Runner.')
     
     @unittest.skipIf(is_frozen, 'Тесты в этом кейсе заморожены.')
     def test_run(self, name = 'Ivan', speed = -7):
@@ -24,9 +26,11 @@ class RunnerTest(unittest.TestCase):
             for _ in range(10):
                 test_runner.run()
             self.assertEqual(test_runner.distance, 100)
-            logging.INFO('test_run успешно выполнен.')
-        except TypeError:
-            logging.WARNING('Неверный тип данных для объекта Runner.')
+            logging.info('test_run успешно выполнен.')
+        # except TypeError:
+        #     logging.WARNING('Неверный тип данных для объекта Runner.')
+        except ValueError:
+            logging.warning('Неверная скорость для Runner.')
 
     @unittest.skipIf(is_frozen, 'Тесты в этом кейсе заморожены.')
     def test_challange(self, name = 777, speed = -7):
@@ -38,5 +42,5 @@ class RunnerTest(unittest.TestCase):
         self.assertNotEqual(test_runner1.distance, test_runner2.distance)
 
 if __name__ == '__main__':
+    logging.basicConfig(level=logging.INFO, filemode='a', filename='runner_tests.log', encoding='utf-8', format='%(asctime)s # %(levelname)s # %(message)s')
     unittest.main()
-    logging.basicConfig(level=logging.INFO, filename='runner_tests.log', encoding='utf-8', format='%(asctime)s # %(levelname)s # %(message)s')
